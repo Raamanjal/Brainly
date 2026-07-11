@@ -6,15 +6,15 @@ import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 
 export function Signup() {
-    const usernameRef = useRef<HTMLInputElement>();
-    const passwordRef = useRef<HTMLInputElement>();
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
     async function signup() {
         const username = usernameRef.current?.value;
         console.log(usernameRef.current)
         const password = passwordRef.current?.value;
-        await axios.post(BACKEND_URL + "/api/v1/signup", {
+        await axios.post(BACKEND_URL + "/api/v1/auth/signup", {
             username,
             password
         })
