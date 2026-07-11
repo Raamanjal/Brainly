@@ -1,0 +1,28 @@
+import type { Request, Response, NextFunction } from "express";
+import jwt, { type JwtPayload } from "jsonwebtoken";
+import ts from "typescript";
+
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+
+    const header = req.headers["authorization"];
+
+    if(!header || !header.startsWith("Bearer ")){
+        return res.status(401).json({message:"Unauthorized"});
+    }
+
+    const token = header.split(" ")[1];
+    //  @ts-ignore
+    const decoded = jwt.verify(token,process.env.JWT_SECRET as string);
+    if(decoded){
+    if(typeof decoded==='string'){
+        res.status(401).json({message:"Not logged In"});
+        return;
+    }
+    req.userid=(decoded as JwtPayload).userId;
+    next();
+    }
+    else{
+        res.status(403).json({message:"Not logged In"});
+    }
+
+}
