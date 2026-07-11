@@ -6,14 +6,14 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 
 enum ContentType {
-    Youtube = "youtube",
-    Twitter = "twitter"
+    Youtube = "video",
+    Twitter = "tweet"
 }
 
 // controlled component
-export function CreateContentModal({open, onClose}) {
-    const titleRef = useRef<HTMLInputElement>();
-    const linkRef = useRef<HTMLInputElement>();
+export function CreateContentModal({open, onClose}: {open: boolean, onClose: () => void}) {
+    const titleRef = useRef<HTMLInputElement>(null);
+    const linkRef = useRef<HTMLInputElement>(null);
     const [type, setType] = useState(ContentType.Youtube);
 
     async function addContent() {
@@ -26,7 +26,7 @@ export function CreateContentModal({open, onClose}) {
             type
         }, {
             headers: {
-                "Authorization": "Bearer" + localStorage.getItem("token")
+                "Authorization": "Bearer " + localStorage.getItem("token")
             }
         })
 
