@@ -17,13 +17,13 @@ Turn the current saved-link application into a reliable personal second brain: u
 - [x] Fix the backend ownership check: content records use `userid`, while the current delete query incorrectly uses `userId`.
 - [x] Return `404` if the item does not exist or does not belong to the current user.
 - [x] Update the UI immediately after a successful delete, or refresh the list.
-- [ ] Confirm deletion before removing an item.
+- [x] Confirm deletion before removing an item.
 
 ### 2. Fix sharing
 
-- [ ] Add the frontend public route `/share/:hash`.
-- [ ] Fetch `GET /api/v1/brain/share/:hash` and display a read-only collection page.
-- [ ] Replace the current `alert()` with copy-to-clipboard and a success toast.
+- [x] Add the frontend public route `/share/:hash`.
+- [x] Fetch `GET /api/v1/brain/share/:hash` and display a read-only collection page.
+- [x] Replace the current `alert()` with copy-to-clipboard and a share-success confirmation.
 - [ ] Add a “Stop sharing” action that removes the public link.
 - [ ] Add “Regenerate link” for a new public URL.
 - [ ] Build the share URL from a frontend environment variable, not `http://localhost:5173`.
