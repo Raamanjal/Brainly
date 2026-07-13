@@ -5,17 +5,17 @@ import { SidebarItem } from "./SidebarItem";
 import { ImageIcon } from "../icons/ImageIcon";
 
 export function Sidebar() {
-    return <div className="h-screen bg-white border-r w-72 fixed left-0 top-0 pl-6">
-        <div className="flex text-2xl pt-8 items-center">
-            <div className="pr-2 text-purple-600">
+    return <aside className="h-screen bg-white border-r border-slate-200 w-56 fixed left-0 top-0 px-4 py-6">
+        <div className="flex text-lg font-semibold text-slate-900 items-center px-1">
+            <div className="pr-2 text-violet-600">
                 <Logo />
             </div>
-            Brainly
+            Second Brain
         </div>
-        <div className="pt-8 pl-4">
-            <SidebarItem text="Twitter" icon={<TwitterIcon />} />
-            <SidebarItem text="Youtube" icon={<YoutubeIcon />} />
+        <nav className="pt-9 space-y-1">
+            <SidebarItem text="Tweets" icon={<TwitterIcon />} />
+            <SidebarItem text="Videos" icon={<YoutubeIcon />} />
             <SidebarItem text="Images" icon={<ImageIcon />} />
-        </div>
-    </div>
+        </nav>
+    </aside>
 }

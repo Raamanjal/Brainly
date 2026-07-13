@@ -43,13 +43,23 @@ export const getContent = async (req, res) => {
 };
 export const deleteContent = async (req, res) => {
     try {
-        const contentId = req.body.contentId;
-        await content.deleteMany({
+        const { contentId } = req.params;
+        const userId = req.userid;
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        if (typeof contentId !== "string" || !Types.ObjectId.isValid(contentId)) {
+            return res.status(400).json({ message: "Invalid content id" });
+        }
+        const deletedContent = await content.findOneAndDelete({
             _id: contentId,
-            userId: req.userid
+            userid: userId,
         });
-        res.json({
-            message: "Deleted"
+        if (!deletedContent) {
+            return res.status(404).json({ message: "Content not found" });
+        }
+        return res.status(200).json({
+            message: "Content deleted successfully",
         });
     }
     catch (error) {

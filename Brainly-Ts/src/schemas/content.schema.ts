@@ -6,9 +6,4 @@ export const createContentSchema = z.object({
   type: z.enum(["image", "video", "article", "tweet"]),
 });
 
-export const deleteContentSchema = z.object({
-  contentId: z.string(),
-});
-
 export type CreateContentBody = z.infer<typeof createContentSchema>;
-export type DeleteContentBody = z.infer<typeof deleteContentSchema>;

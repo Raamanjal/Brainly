@@ -1,4 +1,4 @@
-export function ImageIcon() {
+export function ImageIcon({ className = "size-5" }: { className?: string }) {
     return (
         <svg
             version="1.1"
@@ -10,6 +10,7 @@ export function ImageIcon() {
             viewBox="0 0 122.88 97.68"
             enableBackground="new 0 0 122.88 97.68"
             xmlSpace="preserve"
+            className={className}
         >
             <style type="text/css">{'.st0{fill-rule:evenodd;clip-rule:evenodd;}'}
             </style>

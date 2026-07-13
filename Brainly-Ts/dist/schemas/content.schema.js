@@ -4,7 +4,4 @@ export const createContentSchema = z.object({
     link: z.url(),
     type: z.enum(["image", "video", "article", "tweet"]),
 });
-export const deleteContentSchema = z.object({
-    contentId: z.string(),
-});
 //# sourceMappingURL=content.schema.js.map
