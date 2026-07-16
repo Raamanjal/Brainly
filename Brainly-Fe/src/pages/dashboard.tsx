@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "../components/Button"
-import { Card } from "../components/Card"
+import { Card, type Tag } from "../components/Card"
 import { CreateContentModal } from "../components/CreateContentModal"
 import { PlusIcon } from "../icons/PlusIcon"
 import { ShareIcon } from "../icons/ShareIcon"
@@ -66,12 +66,13 @@ export function Dashboard() {
       </header>
 
       <div className="flex flex-wrap gap-5">
-        {contents.map(({_id, type, link, title}) => <Card
+        {contents.map(({_id, type, link, title, tags}: { _id: string; type: "tweet" | "video" | "image" | "article" | "audio"; link: string; title: string; tags: Tag[] }) => <Card
             key={_id}
             contentId={_id}
             type={type}
             link={link}
             title={title}
+            tags={tags}
             onDelete={deleteContent}
         />)}
       </div>
