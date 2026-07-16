@@ -6,11 +6,17 @@ import { YoutubeIcon } from "../icons/YoutubeIcon";
 
 export type ContentType = "tweet" | "video" | "image" | "article" | "audio";
 
+export interface Tag {
+  _id: string;
+  title: string;
+}
+
 interface CardProps {
   contentId: string;
   title: string;
   link: string;
   type: ContentType;
+  tags?: Tag[];
   onDelete?: (contentId: string) => Promise<void>;
   readOnly?: boolean;
 }
@@ -22,7 +28,7 @@ function ContentTypeIcon({ type }: { type: ContentType }) {
   return <ImageIcon className={className} />;
 }
 
-export function Card({ contentId, title, link, type, onDelete, readOnly = false }: CardProps) {
+export function Card({ contentId, title, link, type, tags = [], onDelete, readOnly = false }: CardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(false);
@@ -61,6 +67,10 @@ export function Card({ contentId, title, link, type, onDelete, readOnly = false 
       {type === "image" && <img className="aspect-video w-full rounded-lg object-cover" src={link} alt={title} />}
       {(type === "article" || type === "audio") && <a href={link} target="_blank" rel="noreferrer" className="block rounded-lg bg-slate-100 p-4 text-sm text-violet-700 hover:bg-violet-50">Open source ↗</a>}
     </div>
+
+    {tags.length > 0 && <div className="mt-4 flex flex-wrap gap-1.5" aria-label="Tags">
+      {tags.map((tag) => <span key={tag._id} className="rounded-full bg-violet-50 px-2.5 py-1 text-xs font-medium text-violet-700">{tag.title}</span>)}
+    </div>}
 
     {confirmDelete && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4" role="dialog" aria-modal="true" aria-labelledby={`delete-title-${contentId}`}>
       <div className="w-full max-w-sm rounded-xl bg-white p-5 shadow-2xl">
