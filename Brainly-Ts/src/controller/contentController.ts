@@ -7,7 +7,7 @@ import { Tag } from "../model/Tag.js";
 interface ContentBody {
   link: string,
   title: string,
-  type: "image" | "video" | "article" | "audio" | "tweet",
+  type: "image" | "video" | "article" | "audio" | "tweet" | "pdf",
   tags?: string[],
 }
 

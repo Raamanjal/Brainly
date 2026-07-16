@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 import "./Tag.js";
 
-const contentTypes = ['image', 'video', 'article', 'audio', 'tweet']; // Extend as needed
+const contentTypes = ['image', 'video', 'article', 'audio', 'tweet', 'pdf']; // Extend as needed
 
 const contentSchema = new Schema({
   link: { type: String, required: true },
