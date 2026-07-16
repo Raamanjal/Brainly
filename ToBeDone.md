@@ -31,7 +31,7 @@ Turn the current saved-link application into a reliable personal second brain: u
 
 ### 3. Authentication and reliability cleanup
 
-- [ ] Protect `/dashboard`; redirect unauthenticated users to sign-in.
+- [X ] Protect `/dashboard`; redirect unauthenticated users to sign-in.
 - [x] Add logout and remove the stored token.
 - [ ] Safely handle expired/invalid JWTs in backend middleware.
 - [ ] Redirect to sign-in on `401` API responses.
@@ -45,11 +45,11 @@ Turn the current saved-link application into a reliable personal second brain: u
 
 ### 4. Fix and add tags
 
-- [ ] Use a consistent tag model with `title` and `userId`.
-- [ ] Tags must be unique per user, but different users may have the same tag title.
-- [ ] Add create/select tags in the Add Content modal.
-- [ ] Populate tags when content is fetched.
-- [ ] Add endpoints:
+- [x] Use a consistent tag model with `title` and `userId`.
+- [x] Tags must be unique per user, but different users may have the same tag title.
+- [x] Add create/select tags in the Add Content modal.
+- [x] Populate tags when content is fetched.
+- [x] Add endpoints:
 
 ```text
 POST   /api/v1/tags
@@ -58,8 +58,8 @@ PATCH  /api/v1/tags/:id
 DELETE /api/v1/tags/:id
 ```
 
-- [ ] When a tag is deleted, remove its reference from all associated content safely.
-- [ ] Render tags as selectable chips on content cards.
+- [x] When a tag is deleted, remove its reference from all associated content safely.
+- [x] Render tags as selectable chips on content cards.
 
 ### 5. Filter by tag and type
 
