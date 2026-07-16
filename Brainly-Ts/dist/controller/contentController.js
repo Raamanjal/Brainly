@@ -1,17 +1,26 @@
 import { Types } from "mongoose";
 import { content } from "../model/Content.js";
+import { Tag } from "../model/Tag.js";
 export const createContent = async (req, res) => {
     try {
-        const { link, title, type } = req.body;
+        const { link, title, type, tags = [] } = req.body;
         if (!req.userid) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-        const newContent = await content.create({
+        const uniqueTagIds = [...new Set(tags)];
+        const ownedTagCount = await Tag.countDocuments({
+            _id: { $in: uniqueTagIds },
+            userId: req.userid,
+        });
+        if (ownedTagCount !== uniqueTagIds.length) {
+            return res.status(400).json({ message: "One or more tags are invalid" });
+        }
+        await content.create({
             link,
             title,
             type,
             userid: req.userid,
-            tags: req.body.tags?.map((tag) => new Types.ObjectId(tag)) || [],
+            tags: uniqueTagIds.map((tag) => new Types.ObjectId(tag)),
         });
         return res.status(201).json({
             success: true,
