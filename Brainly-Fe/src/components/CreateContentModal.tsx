@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CrossIcon } from "../icons/CrossIcon";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import type { Tag } from "./Card";
 
 enum ContentType {
   Youtube = "video",
@@ -21,6 +22,19 @@ export function CreateContentModal({ open, onClose }: { open: boolean; onClose: 
   const [type, setType] = useState(ContentType.Youtube);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [availableTags, setAvailableTags] = useState<Tag[]>([]);
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+  const [newTagName, setNewTagName] = useState("");
+
+  useEffect(() => {
+    if (!open) return;
+
+    axios.get(`${BACKEND_URL}/api/v1/tags`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    }).then((response) => setAvailableTags(response.data.tags)).catch(() => {
+      setError("Unable to load your tags.");
+    });
+  }, [open]);
 
   if (!open) return null;
 
@@ -37,7 +51,7 @@ export function CreateContentModal({ open, onClose }: { open: boolean; onClose: 
     setError("");
 
     try {
-      await axios.post(`${BACKEND_URL}/api/v1/content`, { link, title, type }, {
+      await axios.post(`${BACKEND_URL}/api/v1/content`, { link, title, type, tags: selectedTagIds }, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       onClose();
@@ -45,6 +59,36 @@ export function CreateContentModal({ open, onClose }: { open: boolean; onClose: 
       setError("Unable to add content. Check the link and try again.");
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  function toggleTag(tagId: string) {
+    setSelectedTagIds((current) => current.includes(tagId)
+      ? current.filter((id) => id !== tagId)
+      : [...current, tagId]);
+  }
+
+  async function createTag() {
+    const title = newTagName.trim();
+    if (!title) return;
+
+    const matchingTag = availableTags.find((tag) => tag.title.toLowerCase() === title.toLowerCase());
+    if (matchingTag) {
+      if (!selectedTagIds.includes(matchingTag._id)) toggleTag(matchingTag._id);
+      setNewTagName("");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/v1/tags`, { title }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      const tag = response.data.tag as Tag;
+      setAvailableTags((current) => [...current, tag].sort((a, b) => a.title.localeCompare(b.title)));
+      setSelectedTagIds((current) => [...current, tag._id]);
+      setNewTagName("");
+    } catch {
+      setError("Unable to create this tag. Please try again.");
     }
   }
 
@@ -84,6 +128,31 @@ export function CreateContentModal({ open, onClose }: { open: boolean; onClose: 
               >
                 {contentType.label}
               </button>)}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-sm font-medium text-slate-700">Tags</legend>
+            <p className="mt-1 text-xs text-slate-500">Select existing tags or add a new one for future content.</p>
+            {availableTags.length > 0 && <div className="mt-2 flex flex-wrap gap-2">
+              {availableTags.map((tag) => <button
+                key={tag._id}
+                type="button"
+                aria-pressed={selectedTagIds.includes(tag._id)}
+                onClick={() => toggleTag(tag._id)}
+                className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${selectedTagIds.includes(tag._id) ? "border-violet-600 bg-violet-600 text-white" : "border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100"}`}
+              >{tag.title}</button>)}
+            </div>}
+            <div className="mt-3 flex gap-2">
+              <input
+                value={newTagName}
+                onChange={(event) => setNewTagName(event.target.value)}
+                onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); void createTag(); } }}
+                placeholder="New tag, then Enter"
+                maxLength={50}
+                className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-100"
+              />
+              <button type="button" onClick={() => void createTag()} className="shrink-0 rounded-lg border border-violet-200 px-3 py-2 text-sm font-medium text-violet-700 hover:bg-violet-50">Add</button>
             </div>
           </fieldset>
         </div>
