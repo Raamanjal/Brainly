@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, type ContentType } from "../components/Card";
+import { Card, type ContentType, type Tag } from "../components/Card";
 import { BACKEND_URL } from "../config";
 
 interface SharedContent {
@@ -9,6 +9,7 @@ interface SharedContent {
   title: string;
   link: string;
   type: ContentType;
+  tags: Tag[];
 }
 
 export function SharedBrain() {
@@ -43,7 +44,7 @@ export function SharedBrain() {
       <p className="mt-2 text-sm text-slate-500">Read-only view · {contents.length} {contents.length === 1 ? "item" : "items"}</p>
     </header>
     <div className="flex flex-wrap gap-5">
-      {contents.map((content) => <Card key={content._id} contentId={content._id} title={content.title} link={content.link} type={content.type} readOnly />)}
+      {contents.map((content) => <Card key={content._id} contentId={content._id} title={content.title} link={content.link} type={content.type} tags={content.tags} readOnly />)}
     </div>
   </main>;
 }
