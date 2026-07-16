@@ -8,6 +8,7 @@ export declare const createContentSchema: z.ZodObject<{
         article: "article";
         tweet: "tweet";
     }>;
+    tags: z.ZodDefault<z.ZodArray<z.ZodString>>;
 }, z.core.$strip>;
 export type CreateContentBody = z.infer<typeof createContentSchema>;
 //# sourceMappingURL=content.schema.d.ts.map
