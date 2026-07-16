@@ -16,6 +16,7 @@ export function Sidebar() {
             <SidebarItem text="Tweets" icon={<TwitterIcon />} />
             <SidebarItem text="Videos" icon={<YoutubeIcon />} />
             <SidebarItem text="Images" icon={<ImageIcon />} />
+            <SidebarItem text="PDF" icon ={<ImageIcon />} />
         </nav>
     </aside>
 }
