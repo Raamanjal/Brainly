@@ -66,7 +66,7 @@ export const getSharedContent = async (req, res) => {
         }
         const userContent = await content.find({
             userid: link.userId
-        });
+        }).populate("tags", "title");
         const user = await UserModel.findOne({
             _id: link.userId
         });
