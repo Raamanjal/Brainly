@@ -92,7 +92,8 @@ DELETE /api/v1/tags/:id
 - [ ] Audio: Spotify, SoundCloud, podcast links, and uploaded audio.
 - [ ] Articles: normal web links with fetched metadata.
 - [ ] Images: remote image URLs and uploaded images.
-- [ ] PDFs: public PDF links and uploaded PDFs.
+- [x] PDFs: public PDF and Google Drive links with compact card previews.
+- [ ] PDFs: uploaded local files.
 - [ ] Notes: text-only personal entries.
 - [ ] Replace the current two-button type selection with a full type selector.
 - [ ] Validate URL source/type combinations and show a preview before saving.
@@ -173,8 +174,10 @@ User question
 ### 12. Better UI
 
 - [ ] Responsive, mobile-friendly layout.
+- [x] Responsive masonry card layout that avoids stretched cards and empty grid gaps.
 - [ ] Card grid/list view toggle.
-- [ ] Better cards: favicon, thumbnail, tags, summary, saved date, and action menu.
+- [ ] Better cards: favicon, summary, saved date, and action menu.
+- [x] Better cards: image, video, and PDF thumbnails plus visible tags.
 - [ ] Improved capture flow: paste URL → preview metadata → add tags/notes → save.
 - [ ] Accessible modal behavior: keyboard navigation, Escape-to-close, focus management, and semantic buttons.
 - [ ] Dark mode.

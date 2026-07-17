@@ -43,8 +43,8 @@ export function SharedBrain() {
       <h1 className="mt-1 text-2xl font-semibold text-slate-900">{username}&apos;s shared collection</h1>
       <p className="mt-2 text-sm text-slate-500">Read-only view · {contents.length} {contents.length === 1 ? "item" : "items"}</p>
     </header>
-    <div className="flex flex-wrap gap-5">
-      {contents.map((content) => <Card key={content._id} contentId={content._id} title={content.title} link={content.link} type={content.type} tags={content.tags} readOnly />)}
+    <div className="columns-1 gap-5 sm:columns-2 xl:columns-3 2xl:columns-4">
+      {contents.map((content) => <div key={content._id} className="mb-5 break-inside-avoid"><Card contentId={content._id} title={content.title} link={content.link} type={content.type} tags={content.tags} readOnly /></div>)}
     </div>
   </main>;
 }

@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 interface ContentBody {
     link: string;
     title: string;
-    type: "image" | "video" | "article" | "audio" | "tweet";
+    type: "image" | "video" | "article" | "audio" | "tweet" | "pdf";
     tags?: string[];
 }
 export declare const createContent: (req: Request<{}, {}, ContentBody>, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;

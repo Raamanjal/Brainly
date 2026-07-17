@@ -8,12 +8,16 @@ enum ContentType {
   Youtube = "video",
   Twitter = "tweet",
   Image = "image",
+  Article = "article",
+  Pdf = "pdf",
 }
 
 const contentTypes = [
   { value: ContentType.Youtube, label: "YouTube" },
   { value: ContentType.Twitter, label: "Twitter / X" },
   { value: ContentType.Image, label: "Image" },
+  { value: ContentType.Article, label: "Article" },
+  { value: ContentType.Pdf, label: "PDF" },
 ];
 
 export function CreateContentModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -118,7 +122,7 @@ export function CreateContentModal({ open, onClose }: { open: boolean; onClose: 
 
           <fieldset>
             <legend className="text-sm font-medium text-slate-700">Content type</legend>
-            <div className="mt-2 grid grid-cols-3 gap-2">
+            <div className="mt-2 grid grid-cols-2 gap-2">
               {contentTypes.map((contentType) => <button
                 key={contentType.value}
                 type="button"

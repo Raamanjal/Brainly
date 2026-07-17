@@ -7,6 +7,7 @@ export declare const createContentSchema: z.ZodObject<{
         video: "video";
         article: "article";
         tweet: "tweet";
+        pdf: "pdf";
     }>;
     tags: z.ZodDefault<z.ZodArray<z.ZodString>>;
 }, z.core.$strip>;

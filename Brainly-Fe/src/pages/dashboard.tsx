@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "../components/Button"
-import { Card, type Tag } from "../components/Card"
+import { Card, type ContentType, type Tag } from "../components/Card"
 import { CreateContentModal } from "../components/CreateContentModal"
 import { PlusIcon } from "../icons/PlusIcon"
 import { ShareIcon } from "../icons/ShareIcon"
@@ -15,6 +15,7 @@ import { ShareBrainModal } from "../components/ShareBrainModal"
 export function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<ContentType | null>(null);
   const {contents, refresh} = useContent();
   const navigate = useNavigate();
 
@@ -36,8 +37,16 @@ export function Dashboard() {
     refresh();
   }
 
+  function selectType(type: ContentType) {
+    setSelectedType((current) => current === type ? null : type);
+  }
+
+  const filteredContents = selectedType
+    ? contents.filter((content: { type: ContentType }) => content.type === selectedType)
+    : contents;
+
   return <div className="min-h-screen bg-slate-50">
-    <Sidebar />
+    <Sidebar selectedType={selectedType} onSelectType={selectType} />
     <main className="min-h-screen ml-56 px-7 py-8 md:px-10">
       <CreateContentModal open={modalOpen} onClose={() => {
         setModalOpen(false);
@@ -46,7 +55,7 @@ export function Dashboard() {
       <header className="mb-7 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-slate-500">Your personal library</p>
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">All Notes</h1>
+          <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">{selectedType ? `${selectedType[0].toUpperCase()}${selectedType.slice(1)}s` : "All Notes"}</h1>
         </div>
         <div className="flex items-center gap-2">
           <Button onClick={() => setShareModalOpen(true)} variant="secondary" text="Share brain" startIcon={<ShareIcon />}></Button>
@@ -65,17 +74,17 @@ export function Dashboard() {
         </div>
       </header>
 
-      <div className="flex flex-wrap gap-5">
-        {contents.map(({_id, type, link, title, tags}: { _id: string; type: "tweet" | "video" | "image" | "article" | "audio"; link: string; title: string; tags: Tag[] }) => <Card
-            key={_id}
+      <div className="columns-1 gap-5 sm:columns-2 xl:columns-3 2xl:columns-4">
+        {filteredContents.map(({_id, type, link, title, tags}: { _id: string; type: ContentType; link: string; title: string; tags: Tag[] }) => <div key={_id} className="mb-5 break-inside-avoid"><Card
             contentId={_id}
             type={type}
             link={link}
             title={title}
             tags={tags}
             onDelete={deleteContent}
-        />)}
+        /></div>)}
       </div>
+      {filteredContents.length === 0 && <p className="py-12 text-center text-sm text-slate-500">No {selectedType ?? "content"} saved yet.</p>}
     </main>
   </div>
 }
